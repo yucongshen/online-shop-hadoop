@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+    <constant name="struts.devMode" value="false" />
+    <package name="shop" extends="struts-default" namespace="/">
+    	<global-results>
+    		<result name="info">/WEB-INF/jsp/information.jsp</result>
+    	</global-results>
+    	
+	    <action name="index" class="indexAction">
+			<result name="index">/WEB-INF/jsp/home.jsp</result>
+		</action>
+		<action name="user_*" class="userAction" method="{1}">
+			<result name="registPage">/WEB-INF/jsp/regist.jsp</result>
+			<result name="input">/WEB-INF/jsp/regist.jsp</result>
+			<result name="loginPage">/WEB-INF/jsp/login.jsp</result>
+			<result name="login">/WEB-INF/jsp/login.jsp</result>
+			<result name="loginSuccess" type="redirectAction">index</result>
+			<result name="quit" type="redirectAction">index</result>
+			<result name="checkcodeFail">/WEB-INF/jsp/regist.jsp</result>
+			<result name="personal">/WEB-INF/jsp/personal.jsp</result>
+			<result name="editPasswordPage">/WEB-INF/jsp/edit_password.jsp</result>
+			<result name="editPersonalPage">/WEB-INF/jsp/edit_personal.jsp</result>
+			<result name="verifyPage">/WEB-INF/jsp/verify_email.jsp</result>
+			<result name="resetPasswordPage">/WEB-INF/jsp/reset_password.jsp</result>
+			<result name="service">/WEB-INF/jsp/customer_service.jsp</result>
+			<result name="attention">/WEB-INF/jsp/attention.jsp</result>
+		</action>
+		
+		<action name="checkImg" class="checkImgAction"></action>
+		
+		<action name="product_*" class="productAction" method="{1}">
+			<result name="findByPid">/WEB-INF/jsp/product.jsp</result>
+			<result name="findByCid">/WEB-INF/jsp/product_list.jsp</result>
+			<result name="findByCsid">/WEB-INF/jsp/product_list.jsp</result>
+			<result name="search">/WEB-INF/jsp/product_match.jsp</result>
+		</action>
+		<action name="cart_*" class="cartAction" method="{1}">
+			<result name="add" type="redirectAction">cart_list.action?page=1</result>
+			<result name="clear" type="redirectAction">cart_list.action?page=1</result>
+			<result name="delete" type="redirectAction">cart_list.action?page=1</result>
+			<result name="list">/WEB-INF/jsp/cart.jsp</result>
+		</action>
+		<action name="order_*" class="orderAction" method="{1}">
+			<result name="saveOrder">/WEB-INF/jsp/order.jsp</result>
+			<result name="list">/WEB-INF/jsp/order_list.jsp</result>
+			<result name="findByOid">/WEB-INF/jsp/order.jsp</result>
+			<result name="updateState" type="redirectAction">order_list.action?page=1</result>
+			<result name="delete" type="redirectAction">order_list.action?page=1</result>
+		</action>
+		<action name="favorite_*" class="favoriteAction" method="{1}">
+			<result name="list">/WEB-INF/jsp/favorite.jsp</result>
+			<result name="add">favorite_list.action?page=1</result>
+			<result name="delete" type="redirectAction">favorite_list.action?page=1</result>
+			<result name="clear" type="redirectAction">favorite_list.action?page=1</result>
+		</action>
+		<action name="message_*" class="messageAction" method="{1}">
+			<result name="page">/WEB-INF/jsp/contact_us.jsp</result>
+		</action>
+		
+		
+		<action name="admin">
+			<result>/admin/login.jsp</result>
+		</action>
+		<action name="adminUser_*" class="adminUserAction" method="{1}">
+			<result name="loginFail">/admin/login.jsp</result>
+			<result name="loginSuccess" type="redirect">/admin/home.jsp</result>
+			<result name="logout" type="redirectAction">admin</result>
+		</action>
+		<action name="userManage_*" class="userManageAction" method="{1}">
+			<result name="list">/admin/user/list.jsp</result>
+			<result name="delete" type="redirectAction">userManage_list.action?page=1</result>
+		</action>
+		<action name="firstCategoryManage_*" class="firstCategoryManageAction" method="{1}">
+			<result name="list">/admin/firstcategory/list.jsp</result>
+			<result name="save" type="redirectAction">firstCategoryManage_list.action?page=1</result>
+			<result name="delete" type="redirectAction">firstCategoryManage_list.action?page=1</result>
+			<result name="edit">/admin/firstcategory/edit.jsp</result>
+			<result name="update" type="redirectAction">firstCategoryManage_list.action?page=1</result>
+		</action>
+		<action name="secondCategoryManage_*" class="secondCategoryManageAction" method="{1}">
+			<result name="list">/admin/secondcategory/list.jsp</result>
+			<result name="addPage">/admin/secondcategory/add.jsp</result>
+			<result name="save" type="redirectAction">/secondCategoryManage_list.action?page=1</result>
+			<result name="delete" type="redirectAction">/secondCategoryManage_list.action?page=1</result>
+			<result name="edit">/admin/secondcategory/edit.jsp</result>
+			<result name="update" type="redirectAction">/secondCategoryManage_list.action?page=1</result>
+		</action>
+		
+		<action name="productManage_*" class="productManageAction" method="{1}">
+			<result name="list">/admin/product/list.jsp</result>
+			<result name="addPage">/admin/product/add.jsp</result>
+			<result name="save" type="redirectAction">/productManage_list.action?page=1</result>
+			<result name="delete" type="redirectAction">/productManage_list.action?page=1</result>
+			<result name="edit">/admin/product/edit.jsp</result>
+			<result name="update" type="redirectAction">/productManage_list.action?page=1</result>
+		</action>
+		<action name="orderManage_*" class="orderManageAction" method="{1}">
+			<result name="findOrderList">/admin/order/orderList.jsp</result>
+			<result name="findOrderByOid">/admin/order/orderDetails.jsp</result>
+			<result name="updateState" type="redirectAction">orderManage_findOrderList.action?page=1</result>
+		</action>
+		<action name="messageManage_*" class="messageManageAction" method="{1}">
+			<result name="list">/admin/message/list.jsp</result>
+			<result name="delete">messageManage_list.action?page=1</result>
+			<result name="findByMid">/admin/message/messageDetails.jsp</result>
+		</action>
+    </package>
+</struts>

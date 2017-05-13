@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+	<hibernate-mapping>
+		<class name="cn.ssh.shop.cart.vo.CartItem" table="cartitem">
+		<id name="cartitemid">
+			<generator class="native">
+				<param name="sequence">cartitem_seq</param>
+			</generator>
+		</id>
+		<property name="countnumber"/>
+		<property name="subtotal"/>
+		<many-to-one name="product" lazy="false" class="cn.ssh.shop.product.vo.Product" column="pid"></many-to-one>
+		<many-to-one name="cart" class="cn.ssh.shop.cart.vo.Cart" column="cartid"></many-to-one>
+	</class>
+	</hibernate-mapping>

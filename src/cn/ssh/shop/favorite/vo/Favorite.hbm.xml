@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+    <hibernate-mapping>
+    	<class name="cn.ssh.shop.favorite.vo.Favorite" table="favorite">
+    		<id name="fid">
+    			<generator class="native">
+    				<param name="sequence">favorite_seq</param>
+    			</generator>
+    		</id>
+    		<many-to-one name="product" lazy="false" class="cn.ssh.shop.product.vo.Product" column="pid"></many-to-one>
+			<many-to-one name="user" class="cn.ssh.shop.user.vo.User" column="userid"></many-to-one>
+    	</class>
+    </hibernate-mapping>

@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/context
+	http://www.springframework.org/schema/context/spring-context.xsd
+	http://www.springframework.org/schema/aop
+	http://www.springframework.org/schema/aop/spring-aop.xsd
+	http://www.springframework.org/schema/tx 
+	http://www.springframework.org/schema/tx/spring-tx.xsd">
+	<!-- 配置连接池: -->
+	<!-- 引入外部属性文件 -->
+	<context:property-placeholder location="classpath:jdbc.properties"/>
+	<!-- 配置C3P0连接池: -->
+	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+		<property name="driverClass" value="${jdbc.driver}"/>
+		<property name="jdbcUrl" value="${jdbc.url}"/>
+		<property name="user" value="${jdbc.user}"/>
+		<property name="password" value="${jdbc.password}"/>
+	</bean>
+	
+	<!-- Hibernate的相关信息 -->
+	<bean id="sessionFactory" class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+		<!-- 注入连接池 -->
+		<property name="dataSource" ref="dataSource"/>
+		<!-- 配置Hibernate的其他的属性 -->
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">org.hibernate.dialect.Oracle10gDialect</prop>
+				<prop key="hibernate.show_sql">true</prop>
+				<prop key="hibernate.format_sql">true</prop>
+				<prop key="hibernate.connection.autocommit">false</prop>
+				<prop key="hibernate.hbm2ddl.auto">update</prop>
+				
+			</props>
+		</property>
+		<!-- 配置Hibernate的映射文件 -->
+		<property name="mappingResources">
+			<list>
+				<value>cn/ssh/shop/user/vo/User.hbm.xml</value>
+				<value>cn/ssh/shop/firstcategory/vo/FirstCategory.hbm.xml</value>
+				<value>cn/ssh/shop/product/vo/Product.hbm.xml</value>
+				<value>cn/ssh/shop/secondcategory/vo/SecondCategory.hbm.xml</value>
+				<value>cn/ssh/shop/order/vo/Order.hbm.xml</value>
+				<value>cn/ssh/shop/order/vo/OrderItem.hbm.xml</value>
+				<value>cn/ssh/shop/cart/vo/Cart.hbm.xml</value>
+				<value>cn/ssh/shop/cart/vo/CartItem.hbm.xml</value>
+				<value>cn/ssh/shop/favorite/vo/Favorite.hbm.xml</value>
+				<value>cn/ssh/shop/message/vo/Message.hbm.xml</value>
+				<value>cn/ssh/shop/adminuser/vo/AdminUser.hbm.xml</value>
+			</list>
+		</property>
+	</bean>
+	
+	<!-- 事务管理: -->
+	<!-- 事务管理器 -->
+	<bean id="transactionManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory"/>
+	</bean>
+	
+	<!-- 开启注解事务 -->
+	<tx:annotation-driven transaction-manager="transactionManager"/>
+	
+	<!-- 首页访问的Action -->
+	<bean id="indexAction" class="cn.ssh.shop.index.action.IndexAction" scope="prototype">
+		<property name="firstCategoryService" ref="firstCategoryService"></property>
+		<property name="productService" ref="productService"></property>
+	</bean>
+	<bean id="checkImgAction" class="cn.ssh.shop.user.action.CheckImgAction" scope="prototype"></bean>
+	<bean id="userAction" class="cn.ssh.shop.user.action.UserAction" scope="prototype">
+		<property name="userService" ref="userService"/>
+	</bean>
+	<bean id="productAction" class="cn.ssh.shop.product.action.ProductAction" scope="prototype">
+		<property name="productService" ref="productService"></property>
+		<property name="firstCategoryService" ref="firstCategoryService"></property>
+	</bean>
+	<bean id="cartAction" class="cn.ssh.shop.cart.action.CartAction" scope="prototype">
+		<property name="productService" ref="productService"></property>
+		<property name="cartService" ref="cartService"></property>
+		<property name="cartItemService" ref="cartItemService"></property>
+	</bean>
+	<bean id="orderAction" class="cn.ssh.shop.order.action.OrderAction" scope="prototype">
+		<property name="orderService" ref="orderService"></property>
+		<property name="cartService" ref="cartService"></property>
+	</bean>
+	<bean id="favoriteAction" class="cn.ssh.shop.favorite.action.FavoriteAction" scope="prototype">
+		<property name="favoriteService" ref="favoriteService"></property>
+		<property name="productService" ref="productService"></property>
+	</bean>
+	<bean id="messageAction" class="cn.ssh.shop.message.action.MessageAction" scope="prototype">
+		<property name="messageService" ref="messageService"></property>
+	</bean>
+	
+	<bean id="adminUserAction" class="cn.ssh.shop.adminuser.action.AdminUserAction" scope="prototype">
+		<property name="adminUserService" ref="adminUserService"></property>
+	</bean>
+	<bean id="firstCategoryManageAction" class="cn.ssh.shop.firstcategory.action.FirstCategoryManageAction" scope="prototype">
+		<property name="firstCategoryService" ref="firstCategoryService"></property>
+	</bean>
+	<bean id="secondCategoryManageAction" class="cn.ssh.shop.secondcategory.action.SecondCategoryManageAction" scope="prototype">
+		<property name="firstCategoryService" ref="firstCategoryService"></property>
+		<property name="secondCategoryService" ref="secondCategoryService"></property>
+	</bean>
+	<bean id="userManageAction" class="cn.ssh.shop.user.action.UserManageAction" scope="prototype">
+		<property name="userService" ref="userService"></property>
+	</bean>
+	<bean id="productManageAction" class="cn.ssh.shop.product.action.ProductManageAction" scope="prototype">
+		<property name="productService" ref="productService"></property>
+		<property name="secondCategoryService" ref="secondCategoryService"></property>
+	</bean>
+	<bean id="orderManageAction" class="cn.ssh.shop.order.action.OrderManageAction" scope="prototype">
+		<property name="orderService" ref="orderService"></property>
+	</bean>
+	<bean id="messageManageAction" class="cn.ssh.shop.message.action.MessageManageAction" scope="prototype">
+		<property name="messageService" ref="messageService"></property>
+	</bean>
+	
+	<!-- Dao -->
+	<bean id="userDao" class="cn.ssh.shop.user.dao.UserDao">
+		<property name="sessionFactory" ref="sessionFactory"/>
+	</bean>
+	<bean id="firstCategoryDao" class="cn.ssh.shop.firstcategory.dao.FirstCategoryDao">
+		<property name="sessionFactory" ref="sessionFactory"/>
+	</bean>
+	<bean id="secondCategoryDao" class="cn.ssh.shop.secondcategory.dao.SecondCategoryDao">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+	<bean id="productDao" class="cn.ssh.shop.product.dao.ProductDao">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+	<bean id="orderDao" class="cn.ssh.shop.order.dao.OrderDao">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+	<bean id="cartDao" class="cn.ssh.shop.cart.dao.CartDao">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+	<bean id="cartItemDao" class="cn.ssh.shop.cart.dao.CartItemDao">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+	<bean id="favoriteDao" class="cn.ssh.shop.favorite.dao.FavoriteDao">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+	<bean id="messageDao" class="cn.ssh.shop.message.dao.MessageDao">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+	<bean id="adminUserDao" class="cn.ssh.shop.adminuser.dao.AdminUserDao">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+	
+	
+	<!-- Service -->
+	<bean id="userService" class="cn.ssh.shop.user.service.UserService">
+		<property name="userDao" ref="userDao"/>
+	</bean>
+	<bean id="firstCategoryService" class="cn.ssh.shop.firstcategory.service.FirstCategoryService">
+		<property name="firstCategoryDao" ref="firstCategoryDao"></property>
+	</bean>
+	<bean id="secondCategoryService" class="cn.ssh.shop.secondcategory.service.SecondCategoryService">
+		<property name="secondCategoryDao" ref="secondCategoryDao"></property>
+	</bean>
+	<bean id="productService" class="cn.ssh.shop.product.service.ProductService">
+		<property name="productDao" ref="productDao"></property>
+	</bean>
+	<bean id="orderService" class="cn.ssh.shop.order.service.OrderService">
+		<property name="orderDao" ref="orderDao"></property>
+	</bean>
+	<bean id="cartService" class="cn.ssh.shop.cart.service.CartService">
+		<property name="cartDao" ref="cartDao"></property>
+	</bean>
+	<bean id="cartItemService" class="cn.ssh.shop.cart.service.CartItemService">
+		<property name="cartItemDao" ref="cartItemDao"></property>
+	</bean>
+	<bean id="favoriteService" class="cn.ssh.shop.favorite.service.FavoriteService">
+		<property name="favoriteDao" ref="favoriteDao"></property>
+	</bean>
+	<bean id="messageService" class="cn.ssh.shop.message.service.MessageService">
+		<property name="messageDao" ref="messageDao"></property>
+	</bean>
+	<bean id="adminUserService" class="cn.ssh.shop.adminuser.service.AdminUserService">
+		<property name="adminUserDao" ref="adminUserDao"></property>
+	</bean>
+
+</beans>

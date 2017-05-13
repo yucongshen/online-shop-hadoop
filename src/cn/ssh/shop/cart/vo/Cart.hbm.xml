@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+	<hibernate-mapping>
+		<class name="cn.ssh.shop.cart.vo.Cart" table="cart">
+		<id name="cartid">
+			<generator class="native">
+				<param name="sequence">cart_seq</param>
+			</generator>
+		</id>
+		<property name="total"/>
+		<many-to-one name="user" lazy="false" class="cn.ssh.shop.user.vo.User" column="userid"/>
+		<set name="cartItems" lazy="false" cascade="all">
+			<key column="cartid"></key>
+			<one-to-many class="cn.ssh.shop.cart.vo.CartItem"/>
+		</set>
+	</class>
+	</hibernate-mapping>

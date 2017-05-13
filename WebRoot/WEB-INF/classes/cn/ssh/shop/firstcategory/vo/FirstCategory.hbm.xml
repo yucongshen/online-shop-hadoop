@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+    <hibernate-mapping>
+    	<class name="cn.ssh.shop.firstcategory.vo.FirstCategory" table="firstcategory">
+    		<id name="cid">
+    			<generator class="native">
+    				<param name="sequence">firstcategory_seq</param>
+    			</generator>
+    		</id>
+    		<property name="cname"/>
+    		<set name="secondCategorys" cascade="delete" lazy="false" order-by="csid">
+    			<key column="cid"></key>
+    			<one-to-many class="cn.ssh.shop.secondcategory.vo.SecondCategory"/>
+    		</set>
+    	</class>
+    </hibernate-mapping>

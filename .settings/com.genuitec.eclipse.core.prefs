@@ -1,0 +1,3 @@
+eclipse.preferences.version=1
+validator.Checked=WebRoot/login.jsp,WebRoot/WEB-INF/admin/login.jsp,WebRoot/home.jsp,WebRoot/WEB-INF/jsp,WebRoot/header.jsp,WebRoot/js,src/cn/ssh/shop/utils/MailUtils.java,WebRoot/productList.jsp,WebRoot/easyui,WebRoot/admin,WebRoot/register.jsp,WebRoot/WEB-INF/admin/home.jsp,src/struts.xml,WebRoot/MyJsp.jsp
+validator.Unchecked=

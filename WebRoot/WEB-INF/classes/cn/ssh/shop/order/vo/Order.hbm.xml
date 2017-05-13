@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="cn.ssh.shop.order.vo.Order" table="orders">
+		<id name="orderid">
+			<generator class="native">
+				<param name="sequence">orders_seq</param>
+			</generator>
+		</id>
+		<property name="total"/>
+		<property name="ordertime"/>
+		<property name="state"/>
+		<property name="realname"/>
+		<property name="phone"/>
+		<property name="addr"/>
+		<many-to-one name="user" lazy="false" class="cn.ssh.shop.user.vo.User" column="userid"/>
+		<set name="orderItems" lazy="false" cascade="all">
+			<key column="orderid"></key>
+			<one-to-many class="cn.ssh.shop.order.vo.OrderItem"/>
+		</set>
+	</class>
+</hibernate-mapping>
