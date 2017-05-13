@@ -1,0 +1,8 @@
+# online-shop-hadoop
+weblogic
+oracle
+kafka用作消息队列，订单完成，订单信息发送至kafka，kafka收到后，发送邮件
+利用sqoop将oracel中的orderitem表中的pid列取出，放入hdfs中
+搭建hadoop集群，编写wordcount和sort的mapreduce程序，将orderitem信息进行统计并且排序
+然后将结果导入到oracel中的wordcount表中
+显示在界面中的热门商品处
